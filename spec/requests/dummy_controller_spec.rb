@@ -88,6 +88,11 @@ describe "dummy stuff" do
       end
     end
     
+    it 'should not vomit on an ipv4 rule' do
+      get '/dummy/blocked_by_ipv6'
+      response.status.should eql 404
+    end
+    
     it 'should not get inline constraint' do
       get '/dummy/blocked_by_inline'
       response.status.should eql 404
