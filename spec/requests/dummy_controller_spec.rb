@@ -9,6 +9,15 @@ describe "dummy stuff" do
     response.should be_success
   end
   
+  it 'should get dynamic constraint' do
+    get root_path, nil, "REMOTE_ADDR" => "127.0.0.1"
+    open_session do |sess|
+      sess.remote_addr = '127.0.0.1'
+      get '/dummy/blocked_by_dynamic'
+      response.should be_success
+    end
+  end
+  
   context 'given a good ip' do
     around do |example|
       get root_path, nil, "REMOTE_ADDR" => "10.0.0.45"
@@ -45,6 +54,11 @@ describe "dummy stuff" do
     
     it 'should not get block constraint' do
       get '/dummy/blocked_by_block'
+      response.status.should eql 404 
+    end
+    
+    it 'should not get dynamic constraint' do
+      get '/dummy/blocked_by_dynamic'
       response.status.should eql 404 
     end
   end

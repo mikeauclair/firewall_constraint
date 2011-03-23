@@ -2,6 +2,7 @@ module FirewallConstraint
   require 'ipaddress'
   class Constraint
     def initialize(ips = [])
+      ips = [ips].flatten
       @config = ips.empty? ? 
         YAML.load_file(Rails.root.join('config','firewall_constraint.yml'))[Rails.env] :
         ips

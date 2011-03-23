@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Mike Auclair"]
   s.email       = ["mike@mikeauclair.com"]
   s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.summary     = %q{Rails 3 firewall route constraints}
+  s.description = %q{Rails 3 firewall route constraints}
 
   s.rubyforge_project = "firewallconstraint"
   

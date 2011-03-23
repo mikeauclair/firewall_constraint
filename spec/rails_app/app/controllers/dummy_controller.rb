@@ -10,4 +10,8 @@ class DummyController < ApplicationController
   def blocked_by_block    
     render :text => "block"
   end
+  
+  def blocked_by_dynamic
+    render :text => "dynamic"
+  end
 end
