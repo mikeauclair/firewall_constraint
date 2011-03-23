@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Mike Auclair"]
   s.email       = ["mike@mikeauclair.com"]
-  s.homepage    = ""
+  s.homepage    = "http://github.com/mikeauclair/firewall_constraint"
   s.summary     = %q{Rails 3 firewall route constraints}
   s.description = %q{Rails 3 firewall route constraints}
 
