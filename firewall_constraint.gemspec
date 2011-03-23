@@ -4,7 +4,7 @@ require "firewall_constraint/version"
 
 Gem::Specification.new do |s|
   s.name        = "firewall_constraint"
-  s.version     = Firewallconstraint::VERSION
+  s.version     = FirewallConstraint::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Mike Auclair"]
   s.email       = ["mike@mikeauclair.com"]
