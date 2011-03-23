@@ -8,7 +8,8 @@ require 'rubygems'
 
 RSpec.configure do |config|
   config.before(:all) do
-    
+    class ::ApplicationController < ActionController::Base
+    end
   end
 
 end

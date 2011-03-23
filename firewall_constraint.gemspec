@@ -15,11 +15,9 @@ Gem::Specification.new do |s|
   s.rubyforge_project = "firewallconstraint"
   
   s.add_dependency(%q<rails>, ["~> 3.0.0"])
+  s.add_dependency(%q<ipaddress>)
   s.add_development_dependency(%q<rails>, ["3.0.5"])
-  s.add_development_dependency(%q<factory_girl_rails>)
-	s.add_development_dependency(%q<sqlite3-ruby>)
 	s.add_development_dependency(%q<shoulda>)
-	s.add_development_dependency(%q<mocha>)
   s.add_development_dependency(%q<rspec-rails>, [">= 2.5.0"])
   
   s.files         = `git ls-files`.split("\n")
