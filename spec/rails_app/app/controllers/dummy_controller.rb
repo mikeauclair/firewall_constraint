@@ -14,4 +14,8 @@ class DummyController < ApplicationController
   def blocked_by_dynamic
     render :text => "dynamic"
   end
+  
+  def blocked_by_ipv6
+    render :text => "ipv6"
+  end
 end

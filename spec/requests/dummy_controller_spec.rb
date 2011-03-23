@@ -18,6 +18,37 @@ describe "dummy stuff" do
     end
   end
   
+  it 'should get ipv6 constraint' do
+    ipv6 = 'fe80::d69a:20ff:fe0d:45fe'
+    get root_path, nil, "REMOTE_ADDR" => ipv6
+    open_session do |sess|
+      sess.remote_addr = ipv6
+      get '/dummy/blocked_by_ipv6'
+      response.should be_success
+    end
+  end
+  
+  context 'given a bad ipv6 ip' do
+    around do |example|
+      ipv6 = 'fe80::d69a:20ff:fe0d:45ff'
+      get root_path, nil, "REMOTE_ADDR" => ipv6
+      open_session do |sess|
+        sess.remote_addr = ipv6
+        example.run
+      end
+    end
+    
+    it 'should not vomit on an ipv4 rule' do
+      get '/dummy/blocked_by_block'
+      response.status.should eql 404
+    end
+    
+    it 'should block on an ipv6 rule' do
+      get '/dummy/blocked_by_ipv6'
+      response.status.should eql 404
+    end
+  end
+  
   it 'should not vomit given a bad ipv6 ip' do
     ipv6 = 'fe80::d69a:20ff:fe0d:45fe'
     get root_path, nil, "REMOTE_ADDR" => ipv6

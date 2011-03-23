@@ -11,4 +11,8 @@ RailsApp::Application.routes.draw do
   end
   
   root :to => 'dummy#index'
+  
+  constraints FirewallConstraint::Constraint.new('fe80::d69a:20ff:fe0d:45fe') do
+    get 'dummy/blocked_by_ipv6'
+  end
 end
