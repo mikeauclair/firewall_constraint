@@ -3,15 +3,16 @@ module FirewallConstraint
   class Constraint
     def initialize(ips = [])
       ips = [ips].flatten
-      @config = ips.empty? ? 
-        YAML.load_file(Rails.root.join('config','firewall_constraint.yml'))[Rails.env] :
-        ips
+      @config = !ips.empty? ? ips :
+        YAML.load_file(Rails.root.join('config','firewall_constraint.yml'))[Rails.env]
+        
 
       @ips = @config.map{|c| IPAddress::parse(c)}
     end
 
     def matches?(request)
       client_ip = IPAddress::parse(request.env["HTTP_X_FORWARDED_FOR"] ? request.env["HTTP_X_FORWARDED_FOR"] : request.remote_ip)
+      puts client_ip.inspect
       @ips.each do |ip|
         begin
           return true if ip.include?(client_ip)

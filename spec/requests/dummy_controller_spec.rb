@@ -18,6 +18,16 @@ describe "dummy stuff" do
     end
   end
   
+  it 'should not vomit given a bad ipv6 ip' do
+    ipv6 = 'fe80::d69a:20ff:fe0d:45fe'
+    get root_path, nil, "REMOTE_ADDR" => ipv6
+    open_session do |sess|
+      sess.remote_addr = ipv6
+      get '/dummy/blocked_by_block'
+      response.status.should eql 404
+    end
+  end
+  
   context 'given a good ip' do
     around do |example|
       get root_path, nil, "REMOTE_ADDR" => "10.0.0.45"
