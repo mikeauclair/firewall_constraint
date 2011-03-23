@@ -21,5 +21,4 @@ module FirewallConstraint
       false
     end
   end
-  # Your code goes here...
 end
