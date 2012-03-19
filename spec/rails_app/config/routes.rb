@@ -15,4 +15,8 @@ RailsApp::Application.routes.draw do
   constraints FirewallConstraint::Constraint.new('fe80::d69a:20ff:fe0d:45fe') do
     get 'dummy/blocked_by_ipv6'
   end
+
+  constraints FirewallConstraint::Constraint.new(Proc.new{['127.0.0.1']}) do
+    get 'dummy/blocked_by_proc'
+  end
 end

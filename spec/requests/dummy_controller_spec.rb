@@ -18,6 +18,15 @@ describe "dummy stuff" do
     end
   end
   
+  it 'should get procced constraint' do
+    get root_path, nil, "REMOTE_ADDR" => "127.0.0.1"
+    open_session do |sess|
+      sess.remote_addr = '127.0.0.1'
+      get '/dummy/blocked_by_proc'
+      response.should be_success
+    end
+  end
+
   it 'should get ipv6 constraint' do
     ipv6 = 'fe80::d69a:20ff:fe0d:45fe'
     get root_path, nil, "REMOTE_ADDR" => ipv6
@@ -95,6 +104,11 @@ describe "dummy stuff" do
     
     it 'should not get inline constraint' do
       get '/dummy/blocked_by_inline'
+      response.status.should eql 404
+    end
+
+    it 'should not get procced constraint' do
+      get '/dummy/blocked_by_proc'
       response.status.should eql 404
     end
     

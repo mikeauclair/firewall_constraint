@@ -18,4 +18,8 @@ class DummyController < ApplicationController
   def blocked_by_ipv6
     render :text => "ipv6"
   end
+
+  def blocked_by_proc
+    render :text => "proc"
+  end
 end
