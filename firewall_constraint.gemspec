@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency(%q<rails>, ["3.0.5"])
   s.add_dependency(%q<rails>, ["~> 3.0.0"])
   s.add_dependency(%q<ipaddress>)
-	s.add_development_dependency(%q<shoulda>)
+	s.add_development_dependency(%q<shoulda>, "~> 3.0.0")
   s.add_development_dependency(%q<rspec-rails>, ["~> 2.5.0"])
   
   s.files         = `git ls-files`.split("\n")
