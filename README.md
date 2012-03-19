@@ -24,6 +24,10 @@ config/routes.rb:
       get 'dummy/blocked_by_dynamic' => 'dummy#blocked_by_dynamic'
     end
 
+    constraints FirewallConstraint::Constraint.new(Proc.new{['127.0.0.1']}) do
+      get 'dummy/blocked_by_proc'
+    end
+
 ----
 
 Uses a config file if ips not present in routes
@@ -34,3 +38,7 @@ config/firewall_constraint.yml:
       - 10.0.0.0/8
 
 ----
+
+You should be able to do DB-based whitelisting using the Proc whitelisting and an activerecord lookup or something similar to:
+
+constraints FirewallConstraint::Constraint.new(Proc.new{ValidIps.all.map{|x| x.ip}})
