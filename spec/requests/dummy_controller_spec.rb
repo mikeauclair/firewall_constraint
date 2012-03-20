@@ -48,13 +48,11 @@ describe "dummy stuff" do
     end
     
     it 'should not vomit on an ipv4 rule' do
-      get '/dummy/blocked_by_block'
-      response.status.should eql 404
+      lambda { get '/dummy/blocked_by_block' }.should raise_error ActionController::RoutingError
     end
     
     it 'should block on an ipv6 rule' do
-      get '/dummy/blocked_by_ipv6'
-      response.status.should eql 404
+      lambda { get '/dummy/blocked_by_ipv6'}.should raise_error ActionController::RoutingError
     end
   end
   
@@ -63,8 +61,7 @@ describe "dummy stuff" do
     get root_path, nil, "REMOTE_ADDR" => ipv6
     open_session do |sess|
       sess.remote_addr = ipv6
-      get '/dummy/blocked_by_block'
-      response.status.should eql 404
+      lambda {get '/dummy/blocked_by_block'}.should raise_error ActionController::RoutingError
     end
   end
   
@@ -98,28 +95,24 @@ describe "dummy stuff" do
     end
     
     it 'should not vomit on an ipv4 rule' do
-      get '/dummy/blocked_by_ipv6'
-      response.status.should eql 404
+      lambda {get '/dummy/blocked_by_ipv6'}.should raise_error ActionController::RoutingError
+      
     end
     
     it 'should not get inline constraint' do
-      get '/dummy/blocked_by_inline'
-      response.status.should eql 404
+      lambda {get '/dummy/blocked_by_inline'}.should raise_error ActionController::RoutingError
     end
 
     it 'should not get procced constraint' do
-      get '/dummy/blocked_by_proc'
-      response.status.should eql 404
+      lambda {get '/dummy/blocked_by_proc'}.should raise_error ActionController::RoutingError
     end
     
     it 'should not get block constraint' do
-      get '/dummy/blocked_by_block'
-      response.status.should eql 404 
+      lambda{get '/dummy/blocked_by_block'}.should raise_error ActionController::RoutingError
     end
     
     it 'should not get dynamic constraint' do
-      get '/dummy/blocked_by_dynamic'
-      response.status.should eql 404 
+      lambda{get '/dummy/blocked_by_dynamic'}.should raise_error ActionController::RoutingError
     end
   end
 end
