@@ -41,4 +41,4 @@ config/firewall_constraint.yml:
 
 You should be able to do DB-based whitelisting using the Proc whitelisting and an activerecord lookup or something similar to:
 
-constraints FirewallConstraint::Constraint.new(Proc.new{ValidIps.all.map{|x| x.ip}})
+    constraints FirewallConstraint::Constraint.new(Proc.new{ValidIps.all.map{|x| x.ip}})
