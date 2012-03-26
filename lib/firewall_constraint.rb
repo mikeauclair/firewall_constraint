@@ -6,11 +6,9 @@ module FirewallConstraint
         @ips = ips
       else
         ips = [ips].flatten
-        @config = !ips.empty? ? ips :
+        config = !ips.empty? ? ips :
           YAML.load_file(Rails.root.join('config','firewall_constraint.yml'))[Rails.env]
-          
-
-        @ips = @config
+        @ips = config
       end
     end
 
@@ -39,5 +37,9 @@ module FirewallConstraint
     def ips
       @ips.respond_to?(:call) ? @ips.call : @ips
     end
+  end
+
+  def self.new(*args)
+    Constraint.new(*args)
   end
 end

@@ -14,17 +14,17 @@ Or:
 config/routes.rb:
 
     get 'dummy/index' => 'dummy#index'
-    get 'dummy/blocked_by_inline' => 'dummy#blocked_by_inline', :constraints => FirewallConstraint::Constraint.new
+    get 'dummy/blocked_by_inline' => 'dummy#blocked_by_inline', :constraints => FirewallConstraint.new
   
-    constraints FirewallConstraint::Constraint.new do
+    constraints FirewallConstraint.new do
       get 'dummy/blocked_by_block' => 'dummy#blocked_by_block'
     end
   
-    constraints FirewallConstraint::Constraint.new(['127.0.0.1']) do
+    constraints FirewallConstraint.new(['127.0.0.1']) do
       get 'dummy/blocked_by_dynamic' => 'dummy#blocked_by_dynamic'
     end
 
-    constraints FirewallConstraint::Constraint.new(Proc.new{['127.0.0.1']}) do
+    constraints FirewallConstraint.new(Proc.new{['127.0.0.1']}) do
       get 'dummy/blocked_by_proc'
     end
 
@@ -41,4 +41,4 @@ config/firewall_constraint.yml:
 
 You should be able to do DB-based whitelisting using the Proc whitelisting and an activerecord lookup or something similar to:
 
-    constraints FirewallConstraint::Constraint.new(Proc.new{ValidIps.all.map{|x| x.ip}})
+    constraints FirewallConstraint.new(Proc.new{ValidIps.all.map{|x| x.ip}})
