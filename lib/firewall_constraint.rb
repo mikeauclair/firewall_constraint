@@ -7,7 +7,7 @@ module FirewallConstraint
       else
         ips = [ips].flatten
         @ips = !ips.empty? ? ips :
-          YAML.load_file(Rails.root.join('config','firewall_constraint.yml'))[Rails.env]
+          [YAML.load_file(Rails.root.join('config','firewall_constraint.yml'))[Rails.env]].flatten
       end
     end
 
