@@ -6,13 +6,13 @@ module FirewallConstraint
         @ips = ips
       else
         ips = [ips].flatten
-        config = !ips.empty? ? ips :
+        @ips = !ips.empty? ? ips :
           YAML.load_file(Rails.root.join('config','firewall_constraint.yml'))[Rails.env]
-        @ips = config
       end
     end
 
     def matches?(request)
+      return true if parsed_ips.empty?
       client_ip = IPAddress::parse(request.env["HTTP_X_FORWARDED_FOR"] ? request.env["HTTP_X_FORWARDED_FOR"] : request.remote_ip)
       parsed_ips.each do |ip|
         begin

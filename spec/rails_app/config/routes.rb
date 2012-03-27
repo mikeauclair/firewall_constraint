@@ -10,7 +10,9 @@ RailsApp::Application.routes.draw do
     get 'dummy/blocked_by_dynamic' => 'dummy#blocked_by_dynamic'
   end
   
-  root :to => 'dummy#index'
+  constraints FirewallConstraint.new([]) do
+    root :to => 'dummy#index'
+  end
   
   constraints FirewallConstraint.new('fe80::d69a:20ff:fe0d:45fe') do
     get 'dummy/blocked_by_ipv6'
