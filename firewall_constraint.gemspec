@@ -14,11 +14,11 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = "firewallconstraint"
   
-  s.add_development_dependency(%q<rails>, ["3.2.0"])
-  s.add_dependency(%q<rails>, ">= 3.0.0", "<3.3.0")
+  s.add_development_dependency(%q<rails>, ["4.0.0"])
+  s.add_dependency(%q<rails>, ">= 3.0.0", "<4.1.0")
   s.add_dependency(%q<ipaddress>)
 	s.add_development_dependency(%q<shoulda>, "~> 3.0.0")
-  s.add_development_dependency(%q<rspec-rails>, ["~> 2.5.0"])
+  s.add_development_dependency(%q<rspec-rails>)
   
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
