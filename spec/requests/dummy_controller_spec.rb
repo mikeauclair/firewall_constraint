@@ -1,9 +1,6 @@
 require 'spec_helper'
 
-describe "dummy stuff" do
-  before(:all) do
-
-  end
+describe "DummyController", type: :request do
   it 'should get default action' do
     get '/dummy/index'
     response.should be_success
