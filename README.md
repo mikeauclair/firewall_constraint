@@ -1,6 +1,9 @@
 FirewallConstraint
 ========
 
+[![Build Status](https://travis-ci.org/mikeauclair/firewall_constraint.svg?branch=master)](https://travis-ci.org/mikeauclair/firewall_constraint)
+
+
 Easy whitelist firewalling for Rails 3+4 route constraints
 
     gem 'firewall_constraint'
