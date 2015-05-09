@@ -73,8 +73,8 @@ describe "DummyController", type: :request do
     end
     
     it 'should get inline constraint' do
-        get '/dummy/blocked_by_inline'
-        expect(response).to be_success
+      get '/dummy/blocked_by_inline'
+      expect(response).to be_success
     end
     
     it 'should get block constraint' do
