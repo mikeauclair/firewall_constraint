@@ -1,4 +1,5 @@
 class DummyController < ApplicationController
+
   def index
     render :text => "index"
   end
@@ -22,4 +23,5 @@ class DummyController < ApplicationController
   def blocked_by_proc
     render :text => "proc"
   end
+
 end

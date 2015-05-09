@@ -1,6 +1,8 @@
 module FirewallConstraint
   require 'ipaddress'
   class Constraint
+    cattr_accessor :config
+
     def initialize(ips = [])
       if ips.respond_to? :call
         @ips = ips
@@ -20,9 +22,10 @@ module FirewallConstraint
         rescue NoMethodError => nme
         end
       end
+      raise config.raise_exception if config && config.raise_exception
       false
     end
-
+    
     def parsed_ips
       cur_ips = ips
       if cur_ips == @old_ips
@@ -38,8 +41,22 @@ module FirewallConstraint
       @ips.respond_to?(:call) ? @ips.call : @ips
     end
   end
-
+  
+  class Config
+    attr_accessor :raise_exception
+  end
+  
   def self.new(*args)
     Constraint.new(*args)
+  end
+  
+  def self.config
+    if block_given?
+      c = Constraint.config || Config.new
+      yield c
+      Constraint.config = c
+    else
+      Constraint.config
+    end
   end
 end

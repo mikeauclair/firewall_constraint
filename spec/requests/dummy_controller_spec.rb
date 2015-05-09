@@ -112,5 +112,19 @@ describe "DummyController", type: :request do
     it 'should not get dynamic constraint' do
       expect{get '/dummy/blocked_by_dynamic'}.to raise_error ActionController::RoutingError
     end
+
+    context 'given a provided exception' do
+      around do |example|
+        FirewallConstraint.config do |fc|
+          fc.raise_exception = ActionController::BadRequest
+        end
+        example.run
+        FirewallConstraint.config.raise_exception = nil
+      end
+
+      it 'should throw the correct exception' do
+        expect{get '/dummy/blocked_by_dynamic'}.to raise_error ActionController::BadRequest
+      end
+    end
   end
 end
