@@ -3,7 +3,7 @@ require 'spec_helper'
 describe "DummyController", type: :request do
   it 'should get default action' do
     get '/dummy/index'
-    response.should be_success
+    expect(response).to be_success
   end
   
   it 'should get dynamic constraint' do
@@ -11,7 +11,7 @@ describe "DummyController", type: :request do
     open_session do |sess|
       sess.remote_addr = '127.0.0.1'
       get '/dummy/blocked_by_dynamic'
-      response.should be_success
+      expect(response).to be_success
     end
   end
   
@@ -30,7 +30,8 @@ describe "DummyController", type: :request do
     open_session do |sess|
       sess.remote_addr = ipv6
       get '/dummy/blocked_by_ipv6'
-      response.should be_success
+      expect(response).to be_success
+
     end
   end
   
@@ -45,11 +46,11 @@ describe "DummyController", type: :request do
     end
     
     it 'should not vomit on an ipv4 rule' do
-      lambda { get '/dummy/blocked_by_block' }.should raise_error ActionController::RoutingError
+      expect { get '/dummy/blocked_by_block' }.to raise_error ActionController::RoutingError
     end
     
     it 'should block on an ipv6 rule' do
-      lambda { get '/dummy/blocked_by_ipv6'}.should raise_error ActionController::RoutingError
+      expect { get '/dummy/blocked_by_ipv6'}.to raise_error ActionController::RoutingError
     end
   end
   
@@ -58,7 +59,7 @@ describe "DummyController", type: :request do
     get root_path, nil, "REMOTE_ADDR" => ipv6
     open_session do |sess|
       sess.remote_addr = ipv6
-      lambda {get '/dummy/blocked_by_block'}.should raise_error ActionController::RoutingError
+      expect {get '/dummy/blocked_by_block'}.to raise_error ActionController::RoutingError
     end
   end
   
@@ -73,12 +74,12 @@ describe "DummyController", type: :request do
     
     it 'should get inline constraint' do
         get '/dummy/blocked_by_inline'
-        response.should be_success
+        expect(response).to be_success
     end
     
     it 'should get block constraint' do
       get '/dummy/blocked_by_block'
-      response.should be_success
+      expect(response).to be_success
     end
   end
   
@@ -92,24 +93,24 @@ describe "DummyController", type: :request do
     end
     
     it 'should not vomit on an ipv4 rule' do
-      lambda {get '/dummy/blocked_by_ipv6'}.should raise_error ActionController::RoutingError
+      expect {get '/dummy/blocked_by_ipv6'}.to raise_error ActionController::RoutingError
       
     end
     
     it 'should not get inline constraint' do
-      lambda {get '/dummy/blocked_by_inline'}.should raise_error ActionController::RoutingError
+      expect {get '/dummy/blocked_by_inline'}.to raise_error ActionController::RoutingError
     end
 
     it 'should not get procced constraint' do
-      lambda {get '/dummy/blocked_by_proc'}.should raise_error ActionController::RoutingError
+      expect {get '/dummy/blocked_by_proc'}.to raise_error ActionController::RoutingError
     end
     
     it 'should not get block constraint' do
-      lambda{get '/dummy/blocked_by_block'}.should raise_error ActionController::RoutingError
+      expect{get '/dummy/blocked_by_block'}.to raise_error ActionController::RoutingError
     end
     
     it 'should not get dynamic constraint' do
-      lambda{get '/dummy/blocked_by_dynamic'}.should raise_error ActionController::RoutingError
+      expect{get '/dummy/blocked_by_dynamic'}.to raise_error ActionController::RoutingError
     end
   end
 end
