@@ -20,7 +20,7 @@ describe "DummyController", type: :request do
     open_session do |sess|
       sess.remote_addr = '127.0.0.1'
       get '/dummy/blocked_by_proc'
-      response.should be_success
+      expect(response).to be_success
     end
   end
 
