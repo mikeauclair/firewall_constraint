@@ -1,7 +1,7 @@
 FirewallConstraint
 ========
 
-Easy whitelist firewalling for Rails 3 route constraints
+Easy whitelist firewalling for Rails 3+4 route constraints
 
     gem 'firewall_constraint'
 
@@ -15,11 +15,11 @@ config/routes.rb:
 
     get 'dummy/index' => 'dummy#index'
     get 'dummy/blocked_by_inline' => 'dummy#blocked_by_inline', :constraints => FirewallConstraint.new
-  
+
     constraints FirewallConstraint.new do
       get 'dummy/blocked_by_block' => 'dummy#blocked_by_block'
     end
-  
+
     constraints FirewallConstraint.new(['127.0.0.1']) do
       get 'dummy/blocked_by_dynamic' => 'dummy#blocked_by_dynamic'
     end
@@ -39,6 +39,15 @@ config/firewall_constraint.yml:
 
 ----
 
-You should be able to do DB-based whitelisting using the Proc whitelisting and an activerecord lookup or something similar to:
+You can also do DB-based whitelisting using the Proc-based whitelisting method:
 
-    constraints FirewallConstraint.new(Proc.new{ValidIps.all.map{|x| x.ip}})
+app/models/valid_ip.rb:
+
+    class ValidIp < ActiveRecord::Base
+    end
+
+config/routes.rb:
+
+    constraints FirewallConstraint.new(Proc.new{ValidIp.pluck(:ip)}) do
+      get '/blah'
+    end
