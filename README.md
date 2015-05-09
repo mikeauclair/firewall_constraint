@@ -10,6 +10,7 @@ Or:
     gem install firewall_constraint
 
 -----
+##Example
 
 config/routes.rb:
 
@@ -29,8 +30,9 @@ config/routes.rb:
     end
 
 ----
+##Configuration
 
-Uses a config file if ips not present in routes
+Uses a config file if ips are not provided on instantiation
 
 config/firewall_constraint.yml:
 
@@ -38,6 +40,7 @@ config/firewall_constraint.yml:
       - 10.0.0.0/8
 
 ----
+##Advanced Usage
 
 You can also do DB-based whitelisting using the Proc-based whitelisting method:
 
@@ -51,3 +54,8 @@ config/routes.rb:
     constraints FirewallConstraint.new(Proc.new{ValidIp.pluck(:ip)}) do
       get '/blah'
     end
+
+----
+##Notes
+
+Because parsing IPs with the IPAddress can take some time, this gem will only reparse ips returned by the Proc method if they have changed.  Make sure you return your ips in the same order to avoid unnecessary reparsing.
