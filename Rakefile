@@ -1,6 +1,9 @@
 require 'bundler'
-require 'rspec'
-require 'rspec/core/rake_task'
+begin
+  require 'rspec/core/rake_task'
+rescue LoadError
+end
+
 Bundler::GemHelper.install_tasks
 
 desc 'Default: Run specs'
