@@ -13,9 +13,13 @@ module FirewallConstraint
       end
     end
 
+    def requestor_ip(request)
+      request.env["HTTP_X_FORWARDED_FOR"] ? request.env["HTTP_X_FORWARDED_FOR"].split(/, /).first : request.remote_ip
+    end
+
     def matches?(request)
       return true if parsed_ips.empty?
-      client_ip = IPAddress::parse(request.env["HTTP_X_FORWARDED_FOR"] ? request.env["HTTP_X_FORWARDED_FOR"] : request.remote_ip)
+      client_ip = IPAddress::parse requestor_ip(request)
       parsed_ips.each do |ip|
         begin
           return true if ip.include?(client_ip)
