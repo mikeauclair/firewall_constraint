@@ -68,7 +68,7 @@ describe "DummyController", type: :request do
     get root_path
     open_session do |sess|
       sess.remote_addr = ip_list
-      expect {get '/dummy/blocked_by_block'}.to raise_error ActionController::RoutingError
+      expect {get '/dummy/blocked_by_block', nil, {"HTTP_X_FORWARDED_FOR" => ip_list}}.to raise_error ActionController::RoutingError
     end
   end
 
