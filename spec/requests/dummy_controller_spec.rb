@@ -7,7 +7,7 @@ describe "DummyController", type: :request do
   end
   
   it 'should get dynamic constraint' do
-    get root_path, nil, "REMOTE_ADDR" => "127.0.0.1"
+    get root_path
     open_session do |sess|
       sess.remote_addr = '127.0.0.1'
       get '/dummy/blocked_by_dynamic'
@@ -16,7 +16,7 @@ describe "DummyController", type: :request do
   end
   
   it 'should get procced constraint' do
-    get root_path, nil, "REMOTE_ADDR" => "127.0.0.1"
+    get root_path
     open_session do |sess|
       sess.remote_addr = '127.0.0.1'
       get '/dummy/blocked_by_proc'
@@ -26,7 +26,7 @@ describe "DummyController", type: :request do
 
   it 'should get ipv6 constraint' do
     ipv6 = 'fe80::d69a:20ff:fe0d:45fe'
-    get root_path, nil, "REMOTE_ADDR" => ipv6
+    get root_path
     open_session do |sess|
       sess.remote_addr = ipv6
       get '/dummy/blocked_by_ipv6'
@@ -38,7 +38,7 @@ describe "DummyController", type: :request do
   context 'given a bad ipv6 ip' do
     around do |example|
       ipv6 = 'fe80::d69a:20ff:fe0d:45ff'
-      get root_path, nil, "REMOTE_ADDR" => ipv6
+      get root_path
       open_session do |sess|
         sess.remote_addr = ipv6
         example.run
@@ -56,16 +56,26 @@ describe "DummyController", type: :request do
   
   it 'should not vomit given a bad ipv6 ip' do
     ipv6 = 'fe80::d69a:20ff:fe0d:45fe'
-    get root_path, nil, "REMOTE_ADDR" => ipv6
+    get root_path
     open_session do |sess|
       sess.remote_addr = ipv6
       expect {get '/dummy/blocked_by_block'}.to raise_error ActionController::RoutingError
     end
   end
+
+  it 'should not vomit given a list of IPs in HTTP_X_FORWARDED_FOR -- and should look at the leftmost IP in the list' do
+    ip_list = '1.2.3.4, 10.0.0.1'
+    get root_path
+    open_session do |sess|
+      sess.remote_addr = ip_list
+      expect {get '/dummy/blocked_by_block', nil, {"HTTP_X_FORWARDED_FOR" => ip_list}}.to raise_error ActionController::RoutingError
+    end
+  end
+
   
   context 'given a good ip' do
     around do |example|
-      get root_path, nil, "REMOTE_ADDR" => "10.0.0.45"
+      get root_path
       open_session do |sess|
         sess.remote_addr = '10.0.0.45'
         example.run
@@ -85,7 +95,7 @@ describe "DummyController", type: :request do
   
   context 'given a bad ip' do
     around do |example|
-      get root_path, nil, "REMOTE_ADDR" => "55.55.55.55"
+      get root_path
       open_session do |sess|
         sess.remote_addr = '55.55.55.55'
         example.run
